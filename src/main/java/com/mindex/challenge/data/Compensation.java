@@ -1,6 +1,7 @@
 package com.mindex.challenge.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.OptBoolean;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class Compensation {
     private Employee employee;
     private double salary;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    //Date field format
+    @JsonFormat(pattern = "yyyy-MM-dd",lenient = OptBoolean.FALSE)
     private Date effectiveDate;
 }
