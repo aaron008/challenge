@@ -48,6 +48,7 @@ public class EmployeeReportsServiceImpl implements EmployeeDirectReportsService 
         return reporting;
     }
 
+    //Recurive method to search all direct reports
     private void countAllDirectReports(List<Employee> directReports, AtomicInteger employeeCount) {
 
         if (CollectionUtils.isEmpty(directReports)){
@@ -61,16 +62,20 @@ public class EmployeeReportsServiceImpl implements EmployeeDirectReportsService 
             employee = getEmployee(directReportsEmployee.getEmployeeId(), employee);
 
             if(employee != null) {
-                directReportsEmployee.setDepartment(employee.getDepartment());
-                directReportsEmployee.setDirectReports(employee.getDirectReports());
-                directReportsEmployee.setPosition(employee.getPosition());
-                directReportsEmployee.setFirstName(employee.getFirstName());
-                directReportsEmployee.setLastName(employee.getLastName());
+                mapDirectReportData(directReportsEmployee, employee);
 
-                //Loop through all employees and DirectReports until all are counted.
+                //Loop through all employees and Direct Reports until all are counted.
                 this.countAllDirectReports(employee.getDirectReports(), employeeCount);
             }
         }
+    }
+
+    private static void mapDirectReportData(Employee directReportsEmployee, Employee employee) {
+        directReportsEmployee.setDepartment(employee.getDepartment());
+        directReportsEmployee.setDirectReports(employee.getDirectReports());
+        directReportsEmployee.setPosition(employee.getPosition());
+        directReportsEmployee.setFirstName(employee.getFirstName());
+        directReportsEmployee.setLastName(employee.getLastName());
     }
 
     private Employee getEmployee(String employeeId, Employee employee) {
